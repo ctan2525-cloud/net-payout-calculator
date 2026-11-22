@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#0d544a" />
+    <meta name="description" content="売値を入れると、メルカリ・minne・Creema・BOOTH・Etsy・eBay・Gumroad・Stripeの販売手数料と手取り（入金額）を計算・比較できる計算機。Net payout calculator for online sellers." />
+    <link rel="icon" href="data:image/png;base64,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" />
+    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAHGUlEQVR4nO3ca4hUZRjA8WdHN1cWs7R2zXuipklgloJiKSlGZoKXDNTaLmaU98q+ZFmaaVgqXlJXME3cSMM02wwvIEgrYpjheklCW1sjV6UQwsu6u304Ystq48w8u3Oe5+z/hx8Os3MO77zzn3Nmd+Y1o8nIwQKkKhb2AOAbAUGFgKBCQFAhIKgQEFQICCoEBBUCggoBQYWAoEJAUCEgqBAQVAgIKgQEFQKCCgFBhYCgQkBQISCoEBBUCAgqBAQVAoIKAUGlYdgDSE7Z2oKwh5AOOXmjwx5CojK8rI2vJ+lU5yIjBwHVw3SqM56R9fdA9bweMT8DpgMyPndpY3ke7AZkedbSz+xsGA3I7HyFyOacGA0IXlgMyOZLzQKDM2MxIDhiLiCDLzJTrM2PuYDgCwFBxdmHqTUY/zN/gqxdlZLi+AwUjXpEJCdvtN/H4jUgvzP+f5w+Iq8BwQiXATl9sd6Sx8flMiDYQUBQISCoEBBUCAgqEQloytARFzYWBv8e6fbA9dtz77jz9zUbgtsLps9I5FDtcnIvbCwc039gnQ02UiIS0LLCzcUlJ4PtReMn3tbw2kc0814Y3zQ7W0T+uXRx+uoViRwqlhGROUmPiEzW1YqKKflLK6uqRKRTy9ZvDBslIgO69xjR59HgDrO+WHf6/Lk4R2gQiz332KDNM2Z/9/48EVkw7rVdcz6Z/eyL3Tt0rPvhO+b7w9Tq9h8/9tmObS8NGiwirw8b9e3+vQvHTQh+dPDEr/nfb42zb4NYbOvMD/ve/9+1r3GjRj07d+nZucuUoSM6vTz2zN9/1eng/YrIGSjwXsGa4JlulJm5ffb89rktRKSisnLSysUVlZVxdhzSq3dQzw9Hih9/5y0RmbZqWZ83J07NX7r/+LGqqqq0DN+liJyBxvQfuHzCtOq3ZGc1DjYaxGJ7PlosIqt3bJuav/Smu9/Xqk2wsfvQweBKd+nKleKSk8UlJ1fv2FaH4/YvIgEplZ4/G2xMHjq89V13i8g9zZo3ysy8XF4e6rgcMLc2PpFvV8X/0HFg94c2vT0r2J67sWDuhvW3PGDT7Ox9C5a3bNa8+o3lFVeLjh5esvXr7Qf23/IItUX/8NMsIgHdeAm7UZxLmIh0aNFy5ui8Jx7ulZV5W40fjf14zjf7im45qlrhLqBIvYnWOPHnH3kL5rZ7/pkx8z8Qkb3HDpeeu3Zdm/TU8FCHZlpE3gOt371z/e6dwXbnVq1/XLQy2H512cLrtyfi4pUrP588ISKf79q++9DBoyvWikjw2xxuKiIBKU0eOrz7vR037d1z5FRJLCNDRDIbNuzdtVvw05KyM6GOzjQCEhHJzmo8sm+/kX37Xb9l8SuTgo3yiqtzvlwX0rgcICARkUVbvvql9NSQXn26tmnbPic3O6vx5fLy0nNni44Wf1q45fCp38IeoF0RDOj46dLbn34yqV0uXr68qWjPpqI9ItKhRcuDS1ZNzV+a1JuneovfwmqqrIr3oQdqIKCa+OQrKRG8hCmVlJ1J9gpYn3EGggoBQYWAoOIyINf/H0ocHh+Xy4DE51zH5/QReQ1I3M74jcrWFvh9LL5/jfc775Hh+AwECwgIKgQEFQKCCgFBhYCgQkBQISCoEBBUCAgqvj/K2PXTgQTvOeDBHrVynHQeygXHZ6Cknqo4d07qOGk7lBdeA0ph6m+6S2pPYV0fyhGXAaU86TV21Dx5dXcoX1wGBDsICCoEBBUCggoBQYWAoEJAUCEgqBAQVAgIKgQEFQKCCgFBhYCg4jKglL/IV2NHzRcC6+5QvrgMSFKa9JvuktqTV9eHcsRrQJLk1Me5c7JPYXoO5YXvL9XX1hNQi09kBJpIiuMzECwgIKgQEFR8vwdiYWHoHJ+BWFhogdeAWFhohMuAWFhoh8uAYAcBQYWAoEJAUCEgqBAQVAgIKgQEFQKCCgFBhYCgQkBQISCouAyIdWF2uAxIWBdmhteAhHVhNvj+TjTrwkLn+AwECwgIKgQEFQKCiu830QYXFp6alZP4odq+W5b4nW1yfAYyuLAwqXpSuL9BXgMyuLAwtRq8N+QyIIMLCzUduG7IZUCwg4CgQkBQISCoEBBUCAgqBAQVAoIKAUGFgKBCQFAhIKgQEFRcBmRwYaHmq2Guv1bmMiAxubAwtQ5c1yN+AxKTCwuTrcF7PeL9O9EGFxZGoImkOD4DwQICggoBQcVcQDl5o8MegmnW5sdcQPDFYkDWXmR2GJwZiwHBEaMBGXyphc7mnBgNSKzOV1jMzobdgMTwrKWZ5XkwHZDYnrv0MD4DGU1GDg57DAkpW1sQ9hDSzXg6ATcBBepJRi7SCTgLCNZYfw8E4wgIKgQEFQKCCgFBhYCgQkBQISCoEBBUCAgqBAQVAoIKAUGFgKBCQFAhIKgQEFQICCoEBBUCggoBQYWAoPIvbuYvfJZtbSUAAAAASUVORK5CYII=" />
+    
+    <title>手取り計算機｜Net Payout Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2.25rem; }
+
+      :root {
+        color-scheme: light dark;
+        --bg: #f4f6f3;
+        --surface: #ffffff;
+        --surface-2: #edf1ec;
+        --ink: #1c2420;
+        --ink-2: #4c5a53;
+        --ink-3: #75847c;
+        --line: #d8ded7;
+        --accent: #0d544a;
+        --accent-ink: #ffffff;
+        --accent-soft: #e2efe9;
+        --amber: #b45309;
+        --amber-soft: #fdf0dd;
+        --best: #0d544a;
+        --danger: #b3261e;
+        --radius: 14px;
+        --font: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+        --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #101613;
+          --surface: #1a211d;
+          --surface-2: #232b26;
+          --ink: #eef3ef;
+          --ink-2: #b7c2ba;
+          --ink-3: #8b9a90;
+          --line: #333d36;
+          --accent: #2f9e86;
+          --accent-ink: #0b1512;
+          --accent-soft: #1d332c;
+          --amber: #e8a34c;
+          --amber-soft: #3a2c17;
+          --best: #2f9e86;
+          --danger: #f0837c;
+        }
+      }
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font);
+        line-height: 1.6;
+      }
+      .wrap { max-width: 960px; margin: 0 auto; padding: 20px 16px 56px; }
+
+      /* ---------- top bar ---------- */
+      .topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+      .title-block h1 { font-size: 1.45rem; font-weight: 900; margin: 0; letter-spacing: .01em; }
+      .title-block p { margin: 2px 0 0; color: var(--ink-2); font-size: .92rem; }
+      .lang-toggle { display: inline-flex; background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; flex-shrink: 0; }
+      .lang-toggle button {
+        border: 0; background: transparent; color: var(--ink-2);
+        font: inherit; font-weight: 700; font-size: .9rem;
+        padding: 6px 16px; border-radius: 999px; cursor: pointer; min-height: 2.25rem;
+      }
+      .lang-toggle button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+
+      /* ---------- region tabs ---------- */
+      .region-tabs { display: flex; gap: 8px; margin: 20px 0 16px; }
+      .region-tabs button {
+        flex: 1; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2);
+        font: inherit; font-weight: 700; font-size: 1rem; padding: 10px 8px;
+        border-radius: var(--radius); cursor: pointer;
+      }
+      .region-tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+      .region-tabs .cur { font-family: var(--mono); font-weight: 600; opacity: .85; margin-left: 6px; }
+
+      /* ---------- layout ---------- */
+      .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+      @media (min-width: 760px) { .grid { grid-template-columns: 5fr 6fr; align-items: start; } }
+      .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+      .card h2 { font-size: 1rem; font-weight: 900; margin: 0 0 12px; }
+      label.field-label { display: block; font-size: .85rem; font-weight: 700; color: var(--ink-2); margin: 0 0 6px; }
+      .optional { font-weight: 500; color: var(--ink-3); font-size: .8rem; margin-left: 6px; }
+
+      .price-input-row { display: flex; align-items: stretch; gap: 0; border: 2px solid var(--accent); border-radius: 12px; overflow: hidden; background: var(--surface); }
+      .price-input-row .symbol { display: flex; align-items: center; padding: 0 6px 0 16px; font-family: var(--mono); font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+      .price-input-row input {
+        flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: var(--ink);
+        font-family: var(--mono); font-size: 1.7rem; font-weight: 700; padding: 10px 12px 10px 2px; text-align: right;
+      }
+      .price-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+      .price-presets button {
+        border: 1px solid var(--line); background: var(--surface-2); color: var(--ink-2);
+        font-family: var(--mono); font-size: .85rem; font-weight: 600;
+        padding: 4px 12px; border-radius: 999px; cursor: pointer;
+      }
+      .cost-row { margin-top: 16px; }
+      .cost-input-row { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+      .cost-input-row .symbol { padding: 0 4px 0 12px; font-family: var(--mono); font-weight: 600; color: var(--ink-3); }
+      .cost-input-row input {
+        flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: var(--ink);
+        font-family: var(--mono); font-size: 1.05rem; font-weight: 600; padding: 8px 10px 8px 2px; text-align: right;
+      }
+
+      /* ---------- channel chips ---------- */
+      .chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+      .chip {
+        border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+        border-radius: 12px; padding: 10px 12px; cursor: pointer; text-align: left; font: inherit;
+      }
+      .chip .chip-name { display: block; font-weight: 900; font-size: .98rem; }
+      .chip .chip-rate { display: block; font-family: var(--mono); font-size: .8rem; color: var(--ink-3); margin-top: 1px; }
+      .chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+      .chip[aria-pressed="true"] .chip-rate { color: var(--ink-2); }
+      .chip .custom-tag { font-size: .68rem; font-weight: 700; color: var(--amber); background: var(--amber-soft); border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: 2px; }
+
+      /* ---------- result ---------- */
+      .result-card { border-color: var(--accent); border-width: 1.5px; }
+      .result-net-label { font-size: .85rem; font-weight: 700; color: var(--ink-2); }
+      .result-net { font-family: var(--mono); font-size: 2.6rem; font-weight: 700; line-height: 1.15; color: var(--accent); margin: 2px 0 4px; word-break: break-all; }
+      @media (prefers-color-scheme: dark) { .result-net { color: #4cc3a7; } }
+      .result-net-name { font-size: .95rem; font-weight: 900; }
+      .breakdown { margin-top: 14px; border-top: 1px solid var(--line); }
+      .breakdown .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .95rem; }
+      .breakdown .row .k { color: var(--ink-2); }
+      .breakdown .row .v { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
+      .breakdown .row.total .k { color: var(--ink); font-weight: 700; }
+      .breakdown .row.total .v { font-weight: 700; }
+      .breakdown .row.profit-row .v { color: var(--accent); font-weight: 700; }
+      .breakdown .row.profit-row.neg .v { color: var(--danger); }
+      .note-box { margin-top: 14px; background: var(--amber-soft); border-radius: 10px; padding: 10px 14px; font-size: .88rem; color: var(--ink); }
+      .note-box:empty { display: none; }
+      .empty-msg { color: var(--ink-3); font-size: .95rem; }
+
+      /* ---------- comparison ---------- */
+      .section { margin-top: 16px; }
+      .compare-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+      .compare-table th { text-align: right; font-size: .8rem; color: var(--ink-3); font-weight: 700; padding: 6px 8px; border-bottom: 2px solid var(--line); }
+      .compare-table th:first-child { text-align: left; }
+      .compare-table td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: right; font-family: var(--mono); font-weight: 600; }
+      .compare-table td:first-child { text-align: left; font-family: var(--font); font-weight: 700; }
+      .compare-table tr.best td { background: var(--accent-soft); }
+      .compare-table tr.best td:first-child { border-radius: 8px 0 0 8px; }
+      .compare-table tr.best td:last-child { border-radius: 0 8px 8px 0; }
+      .best-badge { display: inline-block; font-size: .68rem; font-weight: 900; color: var(--accent-ink); background: var(--best); border-radius: 4px; padding: 2px 6px; margin-left: 8px; vertical-align: 2px; font-family: var(--font); }
+      .compare-table tr.clickable { cursor: pointer; }
+      .bar-cell { min-width: 74px; }
+      .bar { height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 5px; }
+      .bar > div { height: 100%; background: var(--accent); border-radius: 3px; }
+      .compare-note { font-size: .82rem; color: var(--ink-3); margin-top: 10px; }
+
+      /* ---------- settings ---------- */
+      .settings-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+      .btn {
+        border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink);
+        font: inherit; font-weight: 700; font-size: .9rem; padding: 8px 16px; border-radius: 10px; cursor: pointer;
+      }
+      .btn.ghost { background: transparent; color: var(--accent); }
+      .btn.small { font-size: .82rem; padding: 5px 12px; }
+      .btn.danger { border-color: var(--danger); color: var(--danger); background: transparent; }
+      .settings-body { margin-top: 14px; }
+      .settings-body[hidden] { display: none; }
+      .rate-row { display: grid; grid-template-columns: 1fr 92px 92px; gap: 8px; align-items: end; padding: 10px 0; border-bottom: 1px solid var(--line); }
+      .rate-row .rname { font-weight: 700; font-size: .95rem; padding-bottom: 8px; }
+      .rate-row .rname .rregion { display: block; font-size: .72rem; color: var(--ink-3); font-weight: 500; }
+      .rate-row label { font-size: .72rem; color: var(--ink-3); font-weight: 700; display: block; margin-bottom: 3px; }
+      .rate-row input {
+        width: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+        color: var(--ink); font-family: var(--mono); font-size: .95rem; font-weight: 600; padding: 7px 8px; text-align: right;
+      }
+      .rate-row .del-cell { grid-column: 1 / -1; text-align: right; }
+      .custom-form { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 16px; background: var(--surface-2); border-radius: 10px; padding: 14px; }
+      @media (min-width: 620px) { .custom-form { grid-template-columns: 2fr 1fr 1fr 1fr auto; align-items: end; } }
+      .custom-form label { font-size: .72rem; color: var(--ink-2); font-weight: 700; display: block; margin-bottom: 3px; }
+      .custom-form input, .custom-form select {
+        width: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+        color: var(--ink); font-size: .95rem; padding: 7px 8px;
+      }
+      .custom-form input[type="number"] { font-family: var(--mono); font-weight: 600; text-align: right; }
+      .settings-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+      .saved-msg { font-size: .82rem; color: var(--accent); font-weight: 700; align-self: center; }
+
+      /* ---------- footer ---------- */
+      .store-card { margin-top: 16px; background: var(--accent); color: var(--accent-ink); border-radius: var(--radius); padding: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+      .store-card .sc-text { max-width: 560px; }
+      .store-card .sc-title { font-weight: 900; font-size: 1.05rem; margin: 0 0 4px; }
+      .store-card .sc-desc { margin: 0; font-size: .9rem; opacity: .92; }
+      .store-card a {
+        display: inline-flex; align-items: center; min-height: 2.75rem;
+        background: #ffffff; color: #0d544a; font-weight: 900; text-decoration: none;
+        padding: 10px 20px; border-radius: 10px; font-size: .95rem; white-space: nowrap;
+      }
+      @media (prefers-color-scheme: dark) { .store-card a { background: #eef3ef; } }
+      .disclaimer { margin-top: 18px; font-size: .82rem; color: var(--ink-3); text-align: center; }
+    </style>
+  <link rel="manifest" href="manifest.json">
+</head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="title-block">
+          <h1 data-i18n="title">手取り計算機</h1>
+          <p data-i18n="subtitle">売値を入れるだけで、販路ごとの手数料と手取りを比較できます</p>
+        </div>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-ja" aria-pressed="true">日本語</button>
+          <button type="button" id="lang-en" aria-pressed="false">English</button>
+        </div>
+      </div>
+
+      <div class="region-tabs" role="tablist" aria-label="Region">
+        <button type="button" role="tab" id="tab-jp" aria-selected="true"><span data-i18n="regionJP">日本</span><span class="cur">JPY ¥</span></button>
+        <button type="button" role="tab" id="tab-us" aria-selected="false"><span data-i18n="regionUS">海外</span><span class="cur">USD $</span></button>
+      </div>
+
+      <div class="grid">
+        <section class="card" aria-labelledby="input-h">
+          <h2 id="input-h" data-i18n="inputTitle">売値と販路</h2>
+          <label class="field-label" for="price" data-i18n="priceLabel">売値（商品価格）</label>
+          <div class="price-input-row">
+            <span class="symbol" id="price-symbol">¥</span>
+            <input id="price" type="number" inputmode="decimal" min="0" step="any" value="5000" aria-label="Price" />
+          </div>
+          <div class="price-presets" id="price-presets"></div>
+
+          <div class="cost-row">
+            <label class="field-label" for="cost"><span data-i18n="costLabel">原価</span><span class="optional" data-i18n="optional">任意</span></label>
+            <div class="cost-input-row">
+              <span class="symbol" id="cost-symbol">¥</span>
+              <input id="cost" type="number" inputmode="decimal" min="0" step="any" placeholder="0" aria-label="Cost" />
+            </div>
+          </div>
+
+          <div class="chips" id="chips" role="group" aria-label="Channel"></div>
+        </section>
+
+        <section class="card result-card" aria-labelledby="result-h">
+          <h2 id="result-h" data-i18n="resultTitle">計算結果</h2>
+          <div id="result-body"></div>
+        </section>
+      </div>
+
+      <section class="card section" aria-labelledby="compare-h">
+        <h2 id="compare-h" data-i18n="compareTitle">全販路の比較（手取りの高い順）</h2>
+        <div id="compare-body"></div>
+        <p class="compare-note" data-i18n="compareNote">行をタップすると、その販路の内訳を表示します。</p>
+      </section>
+
+      <section class="card section" aria-labelledby="settings-h">
+        <div class="settings-head">
+          <h2 id="settings-h" style="margin:0" data-i18n="settingsTitle">料率の設定</h2>
+          <button type="button" class="btn ghost" id="settings-toggle" aria-expanded="false">料率を編集する</button>
+        </div>
+        <div class="settings-body" id="settings-body" hidden>
+          <p style="margin:0 0 6px; font-size:.88rem; color:var(--ink-2)" data-i18n="settingsDesc">各販路の料率（%）と固定費を変更できます。変更はこの端末に保存され、次回も使えます。</p>
+          <div id="rate-rows"></div>
+
+          <form class="custom-form" id="custom-form">
+            <div>
+              <label for="cf-name" data-i18n="customName">カスタム販路の名前</label>
+              <input id="cf-name" type="text" maxlength="30" required />
+            </div>
+            <div>
+              <label for="cf-region" data-i18n="customRegion">地域</label>
+              <select id="cf-region">
+                <option value="jp" data-i18n="regionJP">日本</option>
+                <option value="us" data-i18n="regionUS">海外</option>
+              </select>
+            </div>
+            <div>
+              <label for="cf-rate" data-i18n="ratePct">料率 %</label>
+              <input id="cf-rate" type="number" inputmode="decimal" min="0" max="100" step="any" required />
+            </div>
+            <div>
+              <label for="cf-fixed" data-i18n="fixedFee">固定費</label>
+              <input id="cf-fixed" type="number" inputmode="decimal" min="0" step="any" value="0" required />
+            </div>
+            <button type="submit" class="btn" data-i18n="addCustom">販路を追加</button>
+          </form>
+
+          <div class="settings-actions">
+            <button type="button" class="btn danger" id="reset-rates" data-i18n="resetDefaults">デフォルトに戻す</button>
+            <span class="saved-msg" id="saved-msg" hidden data-i18n="saved">保存しました</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="store-card">
+        <div class="sc-text">
+          <p class="sc-title" data-i18n="storeTitle">売上・手取り・入金を記録したい人へ</p>
+          <p class="sc-desc" data-i18n="storeDesc">販路ごとの売上・手数料・手取り・入金日をまとめて管理できるスプレッドシートを用意しています。</p>
+        </div>
+        <a id="store-link" href="https://c-tan.booth.pm/items/9190731" target="_blank" rel="noopener" data-i18n="storeBtn">シートを見る（BOOTH）</a>
+      </div>
+
+      <p class="disclaimer" data-i18n="disclaimer">料率は2026年11月時点のものです。最新の料率は各サービスの公式ページで確認してください。</p>
+    </div>
+
+    <script>
+    (function () {
+      'use strict';
+
+      /* ===== Verified default fee table (2026-11) ===== */
+      var DEFAULT_CHANNELS = [
+        { id: 'mercari', region: 'jp', name: { ja: 'メルカリ', en: 'Mercari' }, rate: 10, fixed: 0 },
+        { id: 'minne', region: 'jp', name: { ja: 'minne', en: 'minne' }, rate: 10.659, fixed: 0 },
+        { id: 'creema', region: 'jp', name: { ja: 'Creema', en: 'Creema' }, rate: 10.67, fixed: 0 },
+        { id: 'booth', region: 'jp', name: { ja: 'BOOTH', en: 'BOOTH' }, rate: 5.6, fixed: 45 },
+        { id: 'etsy', region: 'us', name: { ja: 'Etsy', en: 'Etsy' }, rate: 9.5, fixed: 0.45 },
+        { id: 'ebay', region: 'us', name: { ja: 'eBay', en: 'eBay' }, rate: 13.6, fixed: 0.40, lowFixed: 0.30, lowThreshold: 10 },
+        { id: 'gumroad', region: 'us', name: { ja: 'Gumroad', en: 'Gumroad' }, rate: 12.9, fixed: 0.30 },
+        { id: 'stripe', region: 'us', name: { ja: 'Stripe', en: 'Stripe' }, rate: 2.9, fixed: 0.30 }
+      ];
+
+      var NOTES = {
+        mercari: { ja: '販売手数料は売値の10%。送料が売値に含まれる販売方法では、送料分にも手数料がかかります。', en: 'The 10% fee applies to the sale price. If shipping is bundled into the price, the fee also applies to the shipping portion.' },
+        minne: { ja: '販売手数料は売値の10.659%（税込）。振込手数料は別途かかる場合があります。', en: 'The fee is 10.659% of the sale price (tax included). A separate bank transfer fee may apply at payout.' },
+        creema: { ja: '販売手数料は売値の10.67%（税込）。', en: 'The fee is 10.67% of the sale price (tax included).' },
+        booth: { ja: '手数料は売値の5.6%＋45円（倉庫・決済手数料）。振込手数料は別途かかる場合があります。', en: 'The fee is 5.6% of the sale price plus ¥45 (warehouse / payment fee). A separate bank transfer fee may apply at payout.' },
+        etsy: { ja: '内訳: トランザクション手数料6.5%＋決済手数料3%＋$0.25＋出品料$0.20。買い手が払う送料にも手数料がかかるため、厳密に合わせるには送料を売値に加えてください。', en: 'Breakdown: 6.5% transaction + 3% + $0.25 payment processing + $0.20 listing fee. Fees also apply to shipping charged to the buyer — add shipping to the price to match exactly.' },
+        ebay: { ja: '売値が$10以下の場合は固定費が$0.30になります。買い手が払う送料にも手数料がかかるため、厳密に合わせるには送料を売値に加えてください。カテゴリによって料率が異なります。', en: 'The fixed fee is $0.30 when the price is $10 or less. Fees also apply to shipping charged to the buyer — add shipping to the price to match exactly. Rates vary by category.' },
+        gumroad: { ja: '直接販売（自分のリンク経由）の場合の料率です。Gumroad Discover経由の販売は一律30%になります。', en: 'This rate is for direct sales (your own links). Sales through Gumroad Discover are charged a flat 30% instead.' },
+        stripe: { ja: 'オンライン決済の標準料率です。国やカードの種類によって料率が異なる場合があります。', en: 'Standard online card processing rate. Rates may vary by country and card type.' }
+      };
+
+      var I18N = {
+        ja: {
+          title: '手取り計算機', subtitle: '売値を入れるだけで、販路ごとの手数料と手取りを比較できます',
+          regionJP: '日本', regionUS: '海外',
+          inputTitle: '売値と販路', priceLabel: '売値（商品価格）', costLabel: '原価', optional: '任意',
+          resultTitle: '計算結果', compareTitle: '全販路の比較（手取りの高い順）',
+          compareNote: '行をタップすると、その販路の内訳を表示します。',
+          settingsTitle: '料率の設定', editRates: '料率を編集する', closeEdit: '編集を閉じる',
+          settingsDesc: '各販路の料率（%）と固定費を変更できます。変更はこの端末に保存され、次回も使えます。',
+          customName: 'カスタム販路の名前', customRegion: '地域', ratePct: '料率 %', fixedFee: '固定費',
+          addCustom: '販路を追加', resetDefaults: 'デフォルトに戻す', saved: '保存しました',
+          delete: '削除', customTag: 'カスタム',
+          storeTitle: '売上・手取り・入金を記録したい人へ',
+          storeDesc: '販路ごとの売上・手数料・手取り・入金日をまとめて管理できるスプレッドシートを用意しています。',
+          storeBtn: 'シートを見る（BOOTH）',
+          disclaimer: '料率は2026年11月時点のものです。最新の料率は各サービスの公式ページで確認してください。',
+          netLabel: '手取り（入金額）', priceRow: '売値', pctFee: '手数料（料率分）', fixedFeeRow: '手数料（固定費）',
+          feeTotal: '手数料 合計', effRate: '実質手数料率', costRow: '原価', profitRow: '利益（手取り − 原価）',
+          emptyMsg: '売値を入力すると、ここに手取りが表示されます。',
+          colChannel: '販路', colFee: '手数料', colNet: '手取り', best: '手取り最大',
+          editedTag: '変更済み'
+        },
+        en: {
+          title: 'Net Payout Calculator', subtitle: 'Enter a price to compare fees and net payouts across marketplaces.',
+          regionJP: 'Japan', regionUS: 'Overseas',
+          inputTitle: 'Price & channel', priceLabel: 'Sale price', costLabel: 'Cost', optional: 'optional',
+          resultTitle: 'Result', compareTitle: 'Compare all channels (highest payout first)',
+          compareNote: 'Tap a row to see the breakdown for that channel.',
+          settingsTitle: 'Fee settings', editRates: 'Edit fees', closeEdit: 'Close editor',
+          settingsDesc: 'You can change each channel’s rate (%) and fixed fee. Changes are saved on this device and kept for next time.',
+          customName: 'Custom channel name', customRegion: 'Region', ratePct: 'Rate %', fixedFee: 'Fixed fee',
+          addCustom: 'Add channel', resetDefaults: 'Reset to defaults', saved: 'Saved',
+          delete: 'Delete', customTag: 'Custom',
+          storeTitle: 'Want to track sales, fees and payouts?',
+          storeDesc: 'Get the spreadsheet that records sales, fees, net amounts and payout dates for every channel in one place.',
+          storeBtn: 'View the ledger (Gumroad)',
+          disclaimer: 'Fee rates are as of November 2026. Please check each service’s official page for the latest rates.',
+          netLabel: 'Net payout', priceRow: 'Sale price', pctFee: 'Fee (percentage)', fixedFeeRow: 'Fee (fixed)',
+          feeTotal: 'Total fee', effRate: 'Effective fee rate', costRow: 'Cost', profitRow: 'Profit (net − cost)',
+          emptyMsg: 'Enter a sale price to see your net payout here.',
+          colChannel: 'Channel', colFee: 'Fee', colNet: 'Net payout', best: 'Best payout',
+          editedTag: 'Edited'
+        }
+      };
+
+      var STORE_LINKS = {
+        ja: 'https://c-tan.booth.pm/items/9190731',
+        en: 'https://tantrum15.gumroad.com/l/sales-fees-payouts-ledger'
+      };
+      var LS_KEY = 'net-payout-calculator.v1';
+
+      /* ===== state ===== */
+      var state = {
+        lang: 'ja',
+        region: 'jp',
+        channelId: 'mercari',
+        overrides: {},   // id -> {rate, fixed}
+        customs: []      // {id, region, name, rate, fixed}
+      };
+
+      function loadState() {
+        try {
+          var raw = window.localStorage.getItem(LS_KEY);
+          if (!raw) return;
+          var s = JSON.parse(raw);
+          if (s.lang === 'ja' || s.lang === 'en') state.lang = s.lang;
+          if (s.region === 'jp' || s.region === 'us') state.region = s.region;
+          if (s.channelId) state.channelId = s.channelId;
+          if (s.overrides && typeof s.overrides === 'object') state.overrides = s.overrides;
+          if (Array.isArray(s.customs)) state.customs = s.customs.filter(function (c) {
+            return c && c.id && typeof c.name === 'string' && isFinite(c.rate) && isFinite(c.fixed) && (c.region === 'jp' || c.region === 'us');
+          });
+        } catch (e) { /* storage unavailable: run with defaults */ }
+      }
+      var saveTimer = null;
+      function saveState(showMsg) {
+        try {
+          window.localStorage.setItem(LS_KEY, JSON.stringify({
+            lang: state.lang, region: state.region, channelId: state.channelId,
+            overrides: state.overrides, customs: state.customs
+          }));
+        } catch (e) { /* ignore */ }
+        if (showMsg) {
+          var msg = document.getElementById('saved-msg');
+          msg.hidden = false;
+          if (saveTimer) clearTimeout(saveTimer);
+          saveTimer = setTimeout(function () { msg.hidden = true; }, 1800);
+        }
+      }
+
+      /* ===== channels ===== */
+      function allChannels() {
+        var list = DEFAULT_CHANNELS.map(function (d) {
+          var o = state.overrides[d.id];
+          var c = { id: d.id, region: d.region, name: d.name, rate: d.rate, fixed: d.fixed, lowFixed: d.lowFixed, lowThreshold: d.lowThreshold, isDefault: true, edited: false };
+          if (o) {
+            if (isFinite(o.rate)) c.rate = o.rate;
+            if (isFinite(o.fixed)) c.fixed = o.fixed;
+            c.edited = true;
+          }
+          return c;
+        });
+        state.customs.forEach(function (cu) {
+          list.push({ id: cu.id, region: cu.region, name: { ja: cu.name, en: cu.name }, rate: cu.rate, fixed: cu.fixed, isDefault: false, edited: false });
+        });
+        return list;
+      }
+      function channelsFor(region) {
+        return allChannels().filter(function (c) { return c.region === region; });
+      }
+      function channelName(c) { return c.name[state.lang] || c.name.ja; }
+
+      /* ===== money math ===== */
+      function calcFee(channel, price) {
+        var fixed = channel.fixed;
+        if (channel.lowFixed != null && channel.lowThreshold != null && price <= channel.lowThreshold) {
+          // eBay: low-price fixed fee tracks the edited standard fee (−$0.10 from default pair 0.40/0.30)
+          var def = DEFAULT_CHANNELS.filter(function (d) { return d.id === channel.id; })[0];
+          fixed = channel.lowFixed + (channel.fixed - (def ? def.fixed : channel.fixed));
+          if (fixed < 0) fixed = 0;
+        }
+        var pctFee = price * channel.rate / 100;
+        var fee = pctFee + fixed;
+        if (channel.region === 'jp') fee = Math.floor(fee + 1e-9);
+        else fee = Math.round((fee + 1e-9) * 100) / 100;
+        return { pctFee: pctFee, fixedUsed: fixed, fee: fee, net: roundMoney(price - fee, channel.region) };
+      }
+      function roundMoney(v, region) {
+        if (region === 'jp') return Math.floor(v + 1e-9);
+        return Math.round((v + 1e-9) * 100) / 100;
+      }
+      function fmt(v, region) {
+        if (region === 'jp') return '¥' + Math.round(v).toLocaleString('ja-JP');
+        return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+      function fmtSigned(v, region) {
+        var s = fmt(Math.abs(v), region);
+        return (v < 0 ? '−' : '') + s;
+      }
+      function rateLabel(c) {
+        var r = trimNum(c.rate) + '%';
+        if (c.fixed > 0) r += ' + ' + fmt(c.fixed, c.region);
+        return r;
+      }
+      function trimNum(n) {
+        return String(Math.round(n * 1000) / 1000);
+      }
+
+      /* ===== DOM refs ===== */
+      var priceInput = document.getElementById('price');
+      var costInput = document.getElementById('cost');
+      var chipsEl = document.getElementById('chips');
+      var resultEl = document.getElementById('result-body');
+      var compareEl = document.getElementById('compare-body');
+
+      function t(key) { return I18N[state.lang][key]; }
+      function currentPrice() {
+        var v = parseFloat(priceInput.value);
+        return (isFinite(v) && v > 0) ? v : 0;
+      }
+      function currentCost() {
+        var v = parseFloat(costInput.value);
+        return (isFinite(v) && v > 0) ? v : 0;
+      }
+      function selectedChannel() {
+        var list = channelsFor(state.region);
+        for (var i = 0; i < list.length; i++) if (list[i].id === state.channelId) return list[i];
+        return list[0] || null;
+      }
+
+      /* ===== render ===== */
+      function renderStatic() {
+        document.documentElement.lang = state.lang;
+        var nodes = document.querySelectorAll('[data-i18n]');
+        for (var i = 0; i < nodes.length; i++) {
+          var key = nodes[i].getAttribute('data-i18n');
+          if (I18N[state.lang][key]) nodes[i].textContent = I18N[state.lang][key];
+        }
+        document.getElementById('lang-ja').setAttribute('aria-pressed', state.lang === 'ja' ? 'true' : 'false');
+        document.getElementById('lang-en').setAttribute('aria-pressed', state.lang === 'en' ? 'true' : 'false');
+        document.getElementById('tab-jp').setAttribute('aria-selected', state.region === 'jp' ? 'true' : 'false');
+        document.getElementById('tab-us').setAttribute('aria-selected', state.region === 'us' ? 'true' : 'false');
+        var sym = state.region === 'jp' ? '¥' : '$';
+        document.getElementById('price-symbol').textContent = sym;
+        document.getElementById('cost-symbol').textContent = sym;
+        var link = document.getElementById('store-link');
+        link.href = STORE_LINKS[state.lang];
+        document.getElementById('cf-name').setAttribute('aria-label', t('customName'));
+        document.getElementById('cf-region').setAttribute('aria-label', t('customRegion'));
+        document.getElementById('cf-rate').setAttribute('aria-label', t('ratePct'));
+        document.getElementById('cf-fixed').setAttribute('aria-label', t('fixedFee'));
+        renderPresets();
+      }
+
+      function renderPresets() {
+        var presets = state.region === 'jp' ? [1000, 3000, 5000, 10000, 30000] : [10, 25, 50, 100, 250];
+        var box = document.getElementById('price-presets');
+        box.innerHTML = '';
+        presets.forEach(function (p) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = fmt(p, state.region);
+          b.addEventListener('click', function () { priceInput.value = p; renderAll(); });
+          box.appendChild(b);
+        });
+      }
+
+      function renderChips() {
+        var list = channelsFor(state.region);
+        chipsEl.innerHTML = '';
+        list.forEach(function (c) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'chip';
+          b.setAttribute('aria-pressed', c.id === state.channelId ? 'true' : 'false');
+          var name = document.createElement('span');
+          name.className = 'chip-name';
+          name.textContent = channelName(c);
+          if (!c.isDefault) {
+            var tag = document.createElement('span');
+            tag.className = 'custom-tag';
+            tag.textContent = t('customTag');
+            name.appendChild(tag);
+          }
+          var rate = document.createElement('span');
+          rate.className = 'chip-rate';
+          rate.textContent = rateLabel(c);
+          b.appendChild(name); b.appendChild(rate);
+          b.addEventListener('click', function () { state.channelId = c.id; saveState(false); renderAll(); });
+          chipsEl.appendChild(b);
+        });
+      }
+
+      function renderResult() {
+        var c = selectedChannel();
+        var price = currentPrice();
+        if (!c || price <= 0) {
+          resultEl.innerHTML = '';
+          var p = document.createElement('p');
+          p.className = 'empty-msg';
+          p.textContent = t('emptyMsg');
+          resultEl.appendChild(p);
+          return;
+        }
+        var r = calcFee(c, price);
+        var cost = currentCost();
+        var eff = price > 0 ? (r.fee / price * 100) : 0;
+
+        var html = '';
+        html += '<div class="result-net-label">' + escapeHtml(t('netLabel')) + ' — ' + escapeHtml(channelName(c)) + '</div>';
+        html += '<div class="result-net">' + fmt(r.net, c.region) + '</div>';
+        html += '<div class="breakdown">';
+        html += row(t('priceRow'), fmt(price, c.region), false);
+        html += row(t('pctFee') + ' (' + trimNum(c.rate) + '%)', '−' + fmt(roundMoney(r.pctFee, c.region), c.region), false);
+        if (r.fixedUsed > 0) html += row(t('fixedFeeRow'), '−' + fmt(r.fixedUsed, c.region), false);
+        html += row(t('feeTotal'), '−' + fmt(r.fee, c.region), true);
+        html += row(t('effRate'), (Math.round(eff * 100) / 100) + '%', false);
+        if (cost > 0) {
+          html += row(t('costRow'), '−' + fmt(cost, c.region), false);
+          var profit = roundMoney(r.net - cost, c.region);
+          html += '<div class="row profit-row' + (profit < 0 ? ' neg' : '') + '"><span class="k">' + escapeHtml(t('profitRow')) + '</span><span class="v">' + fmtSigned(profit, c.region) + '</span></div>';
+        }
+        html += '</div>';
+        var note = c.isDefault && NOTES[c.id] ? NOTES[c.id][state.lang] : '';
+        if (!c.isDefault) note = state.lang === 'ja' ? 'カスタム販路です。料率・固定費は設定から変更できます。' : 'Custom channel. You can change its rate and fixed fee in the settings.';
+        if (c.id === 'gumroad' && c.isDefault) { /* note already covers Discover */ }
+        html += '<div class="note-box">' + escapeHtml(note) + '</div>';
+        resultEl.innerHTML = html;
+
+        function row(k, v, total) {
+          return '<div class="row' + (total ? ' total' : '') + '"><span class="k">' + escapeHtml(k) + '</span><span class="v">' + escapeHtml(v) + '</span></div>';
+        }
+      }
+
+      function renderCompare() {
+        var price = currentPrice();
+        var list = channelsFor(state.region);
+        if (price <= 0 || !list.length) { compareEl.innerHTML = ''; return; }
+        var rows = list.map(function (c) {
+          var r = calcFee(c, price);
+          return { c: c, fee: r.fee, net: r.net };
+        }).sort(function (a, b) { return b.net - a.net; });
+        var maxNet = rows[0].net;
+
+        var html = '<table class="compare-table"><thead><tr>';
+        html += '<th>' + escapeHtml(t('colChannel')) + '</th><th>' + escapeHtml(t('colFee')) + '</th><th>' + escapeHtml(t('colNet')) + '</th><th class="bar-cell"></th>';
+        html += '</tr></thead><tbody>';
+        rows.forEach(function (row, idx) {
+          var pct = maxNet > 0 ? Math.max(0, Math.round(row.net / maxNet * 100)) : 0;
+          html += '<tr class="clickable' + (idx === 0 ? ' best' : '') + '" data-channel="' + escapeHtml(row.c.id) + '">';
+          html += '<td>' + escapeHtml(channelName(row.c)) + (idx === 0 ? '<span class="best-badge">' + escapeHtml(t('best')) + '</span>' : '') + '</td>';
+          html += '<td>' + fmt(row.fee, row.c.region) + '</td>';
+          html += '<td>' + fmt(row.net, row.c.region) + '</td>';
+          html += '<td class="bar-cell"><div class="bar"><div style="width:' + pct + '%"></div></div></td>';
+          html += '</tr>';
+        });
+        html += '</tbody></table>';
+        compareEl.innerHTML = html;
+        var trs = compareEl.querySelectorAll('tr[data-channel]');
+        for (var i = 0; i < trs.length; i++) {
+          trs[i].addEventListener('click', function () {
+            state.channelId = this.getAttribute('data-channel');
+            saveState(false);
+            renderAll();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        }
+      }
+
+      function renderSettings() {
+        var box = document.getElementById('rate-rows');
+        box.innerHTML = '';
+        allChannels().forEach(function (c) {
+          var row = document.createElement('div');
+          row.className = 'rate-row';
+          var nameCell = document.createElement('div');
+          nameCell.className = 'rname';
+          nameCell.textContent = channelName(c);
+          var reg = document.createElement('span');
+          reg.className = 'rregion';
+          reg.textContent = (c.region === 'jp' ? t('regionJP') + ' (¥)' : t('regionUS') + ' ($)') + (!c.isDefault ? ' · ' + t('customTag') : (c.edited ? ' · ' + t('editedTag') : ''));
+          nameCell.appendChild(reg);
+          row.appendChild(nameCell);
+          row.appendChild(numField(t('ratePct'), c.rate, channelName(c), function (v) { updateRate(c, 'rate', v); }));
+          row.appendChild(numField(t('fixedFee'), c.fixed, channelName(c), function (v) { updateRate(c, 'fixed', v); }));
+          if (!c.isDefault) {
+            var delCell = document.createElement('div');
+            delCell.className = 'del-cell';
+            var del = document.createElement('button');
+            del.type = 'button';
+            del.className = 'btn danger small';
+            del.textContent = t('delete');
+            del.addEventListener('click', function () {
+              state.customs = state.customs.filter(function (x) { return x.id !== c.id; });
+              if (state.channelId === c.id) state.channelId = channelsFor(state.region)[0].id;
+              saveState(true); renderAll();
+            });
+            delCell.appendChild(del);
+            row.appendChild(delCell);
+          }
+          box.appendChild(row);
+        });
+
+        function numField(label, value, channelLabel, onChange) {
+          var wrap = document.createElement('div');
+          var lab = document.createElement('label');
+          lab.textContent = label;
+          var inp = document.createElement('input');
+          inp.type = 'number'; inp.inputMode = 'decimal'; inp.min = '0'; inp.step = 'any';
+          inp.value = value;
+          inp.setAttribute('aria-label', channelLabel + ' ' + label);
+          inp.addEventListener('change', function () {
+            var v = parseFloat(inp.value);
+            if (isFinite(v) && v >= 0) onChange(v);
+          });
+          wrap.appendChild(lab); wrap.appendChild(inp);
+          return wrap;
+        }
+      }
+
+      function updateRate(channel, field, value) {
+        if (channel.isDefault) {
+          var o = state.overrides[channel.id] || {};
+          o[field] = value;
+          state.overrides[channel.id] = o;
+        } else {
+          state.customs.forEach(function (cu) { if (cu.id === channel.id) cu[field] = value; });
+        }
+        saveState(true);
+        renderAll();
+      }
+
+      function renderAll() {
+        renderStatic();
+        var sb = document.getElementById('settings-body');
+        var st = document.getElementById('settings-toggle');
+        st.textContent = sb.hidden ? t('editRates') : t('closeEdit');
+        st.setAttribute('aria-expanded', sb.hidden ? 'false' : 'true');
+        renderChips();
+        renderResult();
+        renderCompare();
+        renderSettings();
+      }
+
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, function (ch) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+        });
+      }
+
+      /* ===== events ===== */
+      document.getElementById('lang-ja').addEventListener('click', function () { state.lang = 'ja'; saveState(false); renderAll(); });
+      document.getElementById('lang-en').addEventListener('click', function () { state.lang = 'en'; saveState(false); renderAll(); });
+      document.getElementById('tab-jp').addEventListener('click', function () { setRegion('jp'); });
+      document.getElementById('tab-us').addEventListener('click', function () { setRegion('us'); });
+      function setRegion(r) {
+        if (state.region === r) return;
+        state.region = r;
+        var first = channelsFor(r)[0];
+        if (first) state.channelId = first.id;
+        saveState(false);
+        renderAll();
+      }
+      priceInput.addEventListener('input', function () { renderResult(); renderCompare(); });
+      costInput.addEventListener('input', function () { renderResult(); });
+
+      var settingsBody = document.getElementById('settings-body');
+      var settingsToggle = document.getElementById('settings-toggle');
+      settingsToggle.addEventListener('click', function () {
+        var open = settingsBody.hidden;
+        settingsBody.hidden = !open;
+        settingsToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        settingsToggle.textContent = open ? t('closeEdit') : t('editRates');
+      });
+
+      document.getElementById('reset-rates').addEventListener('click', function () {
+        state.overrides = {};
+        saveState(true);
+        renderAll();
+      });
+
+      document.getElementById('custom-form').addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var name = document.getElementById('cf-name').value.trim();
+        var region = document.getElementById('cf-region').value;
+        var rate = parseFloat(document.getElementById('cf-rate').value);
+        var fixed = parseFloat(document.getElementById('cf-fixed').value);
+        if (!name || !isFinite(rate) || rate < 0 || !isFinite(fixed) || fixed < 0) return;
+        var id = 'custom-' + Date.now().toString(36);
+        state.customs.push({ id: id, region: region, name: name, rate: rate, fixed: fixed });
+        state.region = region;
+        state.channelId = id;
+        saveState(true);
+        document.getElementById('cf-name').value = '';
+        document.getElementById('cf-rate').value = '';
+        document.getElementById('cf-fixed').value = '0';
+        renderAll();
+      });
+
+      /* ===== init ===== */
+      loadState();
+      // If the saved channel belongs to the other region, fall back to that region's first channel.
+      var sel = selectedChannel();
+      if (!sel) {
+        var first = channelsFor(state.region)[0];
+        if (first) state.channelId = first.id;
+      }
+      renderAll();
+    })();
+    </script>
+  <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){})}</script>
+</body>
+</html>
